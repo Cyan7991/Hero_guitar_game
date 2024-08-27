@@ -1,0 +1,685 @@
+<!doctype html>
+<html>
+    <head>
+        <title>FIT2102 A1 2023</title>
+        <style>
+            html {
+                background: linear-gradient(
+                    to bottom,
+                    #2a2a2a,
+                    #1a1a1a
+                ); /* Stage-like background */
+            }
+            body {
+                display: flex;
+                justify-content: center;
+                align-items: center;
+                height: 100vh;
+                margin: 0;
+                font-family: Arial, sans-serif;
+                background: linear-gradient(
+                    to bottom,
+                    #2a2a2a,
+                    #1a1a1a
+                ); /* Stage-like background */
+            }
+
+            .styled-button {
+                background: linear-gradient(135deg, #2e2e2e, #151515);
+                border-radius: 25px;
+                color: white;
+                padding: 12px 24px;
+                font-size: 16px;
+                font-weight: bold;
+                text-transform: uppercase;
+                cursor: pointer;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                display: block;
+                width: 100%; /* Optional: Set the width to make buttons take the full width of the container */
+                margin-bottom: 10px; /* Adds some space between the buttons */
+            }
+
+            .styled-button:hover {
+                background: linear-gradient(135deg, #505050, #686868);
+                box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+                transform: translateY(-2px);
+            }
+
+            .styled-button:active {
+                background: linear-gradient(135deg, #858585, #a6a6a6);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+                transform: translateY(0);
+            }
+            .styled-button:disabled {
+                background: linear-gradient(
+                    135deg,
+                    #7a7a7a,
+                    #505050
+                ); /* Grey gradient for disabled state */
+                cursor: not-allowed; /* Change cursor to indicate the button is not clickable */
+                opacity: 0.5; /* Optionally reduce opacity to make it look "greyed out" */
+            }
+
+            .styled-file-input:disabled {
+                background: linear-gradient(
+                    135deg,
+                    #7a7a7a,
+                    #505050
+                ); /* Grey gradient for disabled state */
+                cursor: not-allowed; /* Change cursor to indicate the button is not clickable */
+                opacity: 0.5; /* Optionally reduce opacity to make it look "greyed out" */
+            }
+
+            .styled-file-input {
+                width: 150px; /* Set the desired width */
+                padding: 10px; /* Adjust padding to fit the smaller width */
+                background: linear-gradient(135deg, #2e2e2e, #151515);
+                border-radius: 25px;
+                color: white;
+                font-size: 16px;
+                font-weight: bold;
+                text-transform: uppercase;
+                cursor: pointer;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+                border: none; /* Removes the default border of the input */
+            }
+
+            .styled-file-input::-webkit-file-upload-button {
+                visibility: hidden;
+            }
+
+            .styled-file-input::before {
+                content: "Choose File";
+                display: inline-block;
+                background: linear-gradient(135deg, #5a5a5a, #717171);
+                border-radius: 25px;
+                color: white;
+                padding: 10px 20px; /* Adjust padding to fit the smaller width */
+                font-size: 16px;
+                font-weight: bold;
+                text-transform: uppercase;
+                cursor: pointer;
+                box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+                transition: all 0.3s ease;
+            }
+
+            .styled-file-input:hover::before {
+                background: linear-gradient(135deg, #505050, #686868);
+                box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            }
+
+            .styled-file-input:active::before {
+                background: linear-gradient(135deg, #858585, #a6a6a6);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+
+            .styled-file-input::-webkit-file-upload-button {
+                visibility: hidden;
+            }
+
+            /*.styled-file-input::before {*/
+            /*    content: 'Choose File';*/
+            /*    display: inline-block;*/
+            /*    background: linear-gradient(135deg, #5a5a5a, #717171);*/
+            /*    border-radius: 25px;*/
+            /*    color: white;*/
+            /*    padding: 12px;*/
+            /*    font-size: 16px;*/
+            /*    font-weight: bold;*/
+            /*    text-transform: uppercase;*/
+            /*    cursor: pointer;*/
+            /*    box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);*/
+            /*    transition: all 0.3s ease;*/
+            /*}*/
+
+            .styled-file-input:hover::before {
+                background: linear-gradient(135deg, #505050, #686868);
+                box-shadow: 0 6px 8px rgba(0, 0, 0, 0.15);
+            }
+
+            .styled-file-input:active::before {
+                background: linear-gradient(135deg, #858585, #a6a6a6);
+                box-shadow: 0 2px 4px rgba(0, 0, 0, 0.2);
+            }
+
+            #mainContainer {
+                display: flex;
+                flex-direction: row;
+                align-items: flex-start;
+                background-color: #fff;
+                border-radius: 8px;
+                box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+                padding: 20px;
+                background: linear-gradient(
+                    to bottom,
+                    #6a6a6a,
+                    #252525
+                ); /* Stage-like background */
+            }
+
+            #svgCanvas {
+                border: 1px solid #ccc;
+                border-radius: 8px;
+                margin-right: 20px;
+            }
+
+            #controls {
+                float: right;
+                border: 1px solid #ccc;
+                background-color: #f9f9f9;
+                padding: 10px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+
+                margin-left: 20px;
+            }
+
+            .highlight {
+                color: green;
+                background-color: lawngreen;
+                padding: 2px 4px; /* Optional: Add some padding to make the highlight more noticeable */
+                border-radius: 4px; /* Optional: Round the corners for a smoother look */
+            }
+
+            .removeLight {
+                color: red;
+                background-color: darkred;
+                padding: 2px 4px; /* Optional: Add some padding to make the highlight more noticeable */
+                border-radius: 4px; /* Optional: Round the corners for a smoother look */
+            }
+
+            .outBoxColor {
+                color: white;
+            }
+            #controls h2 {
+                margin-top: 0;
+                text-align: center;
+            }
+
+            #controls table {
+                width: 90%;
+            }
+
+            #controls .key.highlight {
+                background-color: red;
+                /*border: 2px solid black;*/
+            }
+
+            #controls .key {
+                border: 1px solid #000;
+                padding: 5px;
+                text-align: center;
+                width: 100px;
+                display: inline-block;
+                margin: 5px;
+                border-radius: 4px;
+                background-color: #ffffff;
+            }
+
+            h1 {
+                margin-bottom: 10px; /* Adjust this value as needed */
+            }
+
+            h3 {
+                margin-top: 5px; /* Adjust this value as needed */
+                margin-bottom: 20px; /* Adjust if needed */
+            }
+
+            #sideBar {
+                margin-left: 20px;
+            }
+
+            #sideBar .text {
+                margin-bottom: 10px;
+            }
+
+            #sideBar .left {
+                font-weight: bold;
+            }
+
+            #sideBar .right {
+                float: right;
+            }
+
+            .text2 {
+                color: #ea3de0;
+            }
+
+            .text3 {
+                color: blue;
+            }
+
+            #sidePanel {
+                border: 1px solid #ccc;
+                background-color: #f9f9f9;
+                padding: 10px;
+                border-radius: 8px;
+                box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+                margin-left: 20px;
+                max-width: 200px;
+            }
+
+            #sidePanel h4 {
+                margin-top: 0;
+                text-align: center;
+            }
+
+            .radio-group,
+            .options {
+                margin-bottom: 5px;
+            }
+
+            .radio-group label,
+            .options label {
+                display: block;
+                margin-bottom: 0;
+            }
+        </style>
+    </head>
+    <body>
+        <h1>Guitar Hero</h1>
+        <h3 id="loading" class="outBoxColor">
+            Loading Status:
+            <span class="removeLight" id="loading-status-text">Not Loaded</span>
+        </h3>
+
+        <div id="mainContainer">
+            <main id="main" class="flex row">
+                <svg id="svgCanvas" viewBox="0 0 200 400">
+                    <defs>
+                        <!-- Define radial gradients for shading -->
+                        <radialGradient
+                            id="greenGradient"
+                            cx="50%"
+                            cy="50%"
+                            r="50%"
+                            fx="50%"
+                            fy="50%"
+                        >
+                            <stop
+                                offset="0%"
+                                style="stop-color: #00ff00; stop-opacity: 1"
+                            />
+                            <stop
+                                offset="70%"
+                                style="stop-color: #008800; stop-opacity: 1"
+                            />
+                            <stop
+                                offset="100%"
+                                style="stop-color: #003300; stop-opacity: 1"
+                            />
+                        </radialGradient>
+                        <radialGradient
+                            id="redGradient"
+                            cx="50%"
+                            cy="50%"
+                            r="50%"
+                            fx="50%"
+                            fy="50%"
+                        >
+                            <stop
+                                offset="0%"
+                                style="stop-color: #ff0000; stop-opacity: 1"
+                            />
+                            <stop
+                                offset="70%"
+                                style="stop-color: #880000; stop-opacity: 1"
+                            />
+                            <stop
+                                offset="100%"
+                                style="stop-color: #330000; stop-opacity: 1"
+                            />
+                        </radialGradient>
+                        <radialGradient
+                            id="blueGradient"
+                            cx="50%"
+                            cy="50%"
+                            r="50%"
+                            fx="50%"
+                            fy="50%"
+                        >
+                            <stop
+                                offset="0%"
+                                style="stop-color: #0000ff; stop-opacity: 1"
+                            />
+                            <stop
+                                offset="70%"
+                                style="stop-color: #000088; stop-opacity: 1"
+                            />
+                            <stop
+                                offset="100%"
+                                style="stop-color: #000033; stop-opacity: 1"
+                            />
+                        </radialGradient>
+                        <radialGradient
+                            id="greyGradient"
+                            cx="50%"
+                            cy="50%"
+                            r="50%"
+                            fx="50%"
+                            fy="50%"
+                        >
+                            <stop
+                                offset="0%"
+                                style="stop-color: #cccccc; stop-opacity: 1"
+                            />
+                            <stop
+                                offset="70%"
+                                style="stop-color: #888888; stop-opacity: 1"
+                            />
+                            <stop
+                                offset="100%"
+                                style="stop-color: #333333; stop-opacity: 1"
+                            />
+                        </radialGradient>
+                        <radialGradient
+                            id="yellowGradient"
+                            cx="50%"
+                            cy="50%"
+                            r="50%"
+                            fx="50%"
+                            fy="50%"
+                        >
+                            <stop
+                                offset="0%"
+                                style="stop-color: #ffff00; stop-opacity: 1"
+                            />
+                            <stop
+                                offset="70%"
+                                style="stop-color: #888800; stop-opacity: 1"
+                            />
+                            <stop
+                                offset="100%"
+                                style="stop-color: #333300; stop-opacity: 1"
+                            />
+                        </radialGradient>
+
+                        <radialGradient
+                            id="realisticStarGradient"
+                            cx="50%"
+                            cy="50%"
+                            r="50%"
+                            fx="50%"
+                            fy="50%"
+                        >
+                            <stop
+                                offset="0%"
+                                style="stop-color: #fff700; stop-opacity: 1"
+                            />
+                            <stop
+                                offset="50%"
+                                style="stop-color: #ffc700; stop-opacity: 1"
+                            />
+                            <stop
+                                offset="70%"
+                                style="stop-color: #ffab00; stop-opacity: 1"
+                            />
+                            <stop
+                                offset="100%"
+                                style="stop-color: #8b7500; stop-opacity: 1"
+                            />
+                        </radialGradient>
+
+                        <!-- Add gloss effect -->
+                        <linearGradient
+                            id="glossGradient"
+                            x1="0%"
+                            y1="0%"
+                            x2="0%"
+                            y2="100%"
+                        >
+                            <stop
+                                offset="0%"
+                                style="stop-color: white; stop-opacity: 0.8"
+                            />
+                            <stop
+                                offset="100%"
+                                style="stop-color: white; stop-opacity: 0"
+                            />
+                        </linearGradient>
+                        <!-- Add shadow -->
+                        <filter
+                            id="circleShadow"
+                            x="-50%"
+                            y="-50%"
+                            width="200%"
+                            height="200%"
+                        >
+                            <feGaussianBlur
+                                in="SourceAlpha"
+                                stdDeviation="3"
+                                result="blur"
+                            />
+                            <feOffset
+                                in="blur"
+                                dx="3"
+                                dy="3"
+                                result="offsetBlur"
+                            />
+                            <feMerge>
+                                <feMergeNode in="offsetBlur" />
+                                <feMergeNode in="SourceGraphic" />
+                            </feMerge>
+                        </filter>
+                    </defs>
+                    <audio
+                        id="audioPlayer"
+                        controls
+                        style="display: none"
+                    ></audio>
+
+                    <line
+                        x1="20%"
+                        y1="0"
+                        x2="20%"
+                        y2="90%"
+                        stroke="green"
+                        stroke-width="5"
+                    />
+                    <line
+                        x1="40%"
+                        y1="0"
+                        x2="40%"
+                        y2="90%"
+                        stroke="red"
+                        stroke-width="5"
+                    />
+                    <line
+                        x1="60%"
+                        y1="0"
+                        x2="60%"
+                        y2="90%"
+                        stroke="blue"
+                        stroke-width="5"
+                    />
+                    <line
+                        x1="80%"
+                        y1="0"
+                        x2="80%"
+                        y2="90%"
+                        stroke="yellow"
+                        stroke-width="5"
+                    />
+
+                    <circle
+                        cx="20%"
+                        cy="350"
+                        r="5%"
+                        fill="url(#greenGradient)"
+                        filter="url(#circleShadow)"
+                    />
+                    <circle
+                        cx="40%"
+                        cy="350"
+                        r="5%"
+                        fill="url(#redGradient)"
+                        filter="url(#circleShadow)"
+                    />
+                    <circle
+                        cx="60%"
+                        cy="350"
+                        r="5%"
+                        fill="url(#blueGradient)"
+                        filter="url(#circleShadow)"
+                    />
+                    <circle
+                        cx="80%"
+                        cy="350"
+                        r="5%"
+                        fill="url(#yellowGradient)"
+                        filter="url(#circleShadow)"
+                    />
+
+                    <!-- Add donut-like smaller circles -->
+                    <circle cx="20%" cy="350" r="2%" fill="black" />
+                    <circle cx="40%" cy="350" r="2%" fill="black" />
+                    <circle cx="60%" cy="350" r="2%" fill="black" />
+                    <circle cx="80%" cy="350" r="2%" fill="black" />
+
+                    <!-- Apply gloss on top -->
+                    <ellipse
+                        cx="20%"
+                        cy="345"
+                        rx="5%"
+                        ry="2%"
+                        fill="url(#glossGradient)"
+                    />
+                    <ellipse
+                        cx="40%"
+                        cy="345"
+                        rx="5%"
+                        ry="2%"
+                        fill="url(#glossGradient)"
+                    />
+                    <ellipse
+                        cx="60%"
+                        cy="345"
+                        rx="5%"
+                        ry="2%"
+                        fill="url(#glossGradient)"
+                    />
+                    <ellipse
+                        cx="80%"
+                        cy="345"
+                        rx="5%"
+                        ry="2%"
+                        fill="url(#glossGradient)"
+                    />
+
+                    <g id="gameOver" visibility="hidden">
+                        <rect
+                            x="26"
+                            y="120"
+                            fill="white"
+                            height="48"
+                            width="149"
+                        ></rect>
+                        <text x="36" y="150">Game Over</text>
+                    </g>
+                    <!--&lt;!&ndash;10 is yellow, 30 is blue, 70 is red, 110 is green&ndash;&gt;-->
+                    <!--            <polygon-->
+                    <!--                points="150,345 156,360 174,360 162,372 166,390 150,380 134,390 138,372 126,360 144,360"-->
+                    <!--                fill="url(#realisticStarGradient)"-->
+                    <!--                filter="url(#circleShadow)"-->
+                    <!--                transform="translate(-30, -370)"-->
+                    <!--            />-->
+                </svg>
+
+                <div id="sideBar" class="flex col">
+                    <div id="info" class="flex col">
+                        <div class="text">
+                            <span class="left">Multiplier: </span>
+                            <span class="right" id="multiplierText">...</span>
+                        </div>
+                        <div class="text2">
+                            <span class="left">Bonus: </span>
+                            <span class="right" id="bonusMultiplier">...</span>
+                        </div>
+                        <div class="text3">
+                            <span class="left">Decay: </span>
+                            <span class="right" id="decayTime">...</span>
+                        </div>
+                        <div class="text">
+                            <span class="left">Score: </span>
+                            <span class="right" id="scoreText">...</span>
+                        </div>
+                        <div class="text">
+                            <span class="left">Highscore: </span>
+                            <span class="right" id="highScoreText">...</span>
+                        </div>
+                    </div>
+                </div>
+            </main>
+
+            <div id="controls">
+                <h4>Controls</h4>
+                <table>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div id="KeyH" class="key">H &#x1F7E2;</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div id="KeyJ" class="key">J &#x1F534;</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div id="KeyK" class="key">K &#x1F535;</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div id="KeyL" class="key">L &#x1F7E1;</div>
+                        </td>
+                    </tr>
+                    <tr>
+                        <td></td>
+                        <td>
+                            <div id="Space" class="key">Space &#x23EF;</div>
+                        </td>
+                    </tr>
+                </table>
+                <h4>Settings</h4>
+                <div class="radio-group">
+                    <label
+                        ><input
+                            id="difficulty"
+                            type="radio"
+                            name="difficulty"
+                            value="hard"
+                        />
+                        Hard</label
+                    ><br />
+                </div>
+                <button id="stopButton" class="styled-button">Stop</button>
+                <!-- Resume Button (Hidden Initially) -->
+                <button
+                    id="resumeButton"
+                    class="styled-button"
+                    style="display: none"
+                >
+                    Resume
+                </button>
+                <button id="startButton" class="styled-button">Start</button>
+                <button id="restartButton" class="styled-button">
+                    Restart
+                </button>
+                <input
+                    type="file"
+                    id="csvFileInput"
+                    class="styled-file-input"
+                    accept=".csv"
+                />
+            </div>
+        </div>
+        <script type="module" src="./src/main.ts"></script>
+    </body>
+</html>
