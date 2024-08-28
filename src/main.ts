@@ -1119,25 +1119,6 @@ if (typeof window !== "undefined") {
     ) as HTMLElement | null;
     const restartButton = document.getElementById("restartButton")!;
     const statusElement = document.getElementById("loading-status-text");
-    const stopButton = document.getElementById("stopButton");
-    const resumeButton = document.getElementById("resumeButton");
-
-    //this is part of stop and resume type
-
-    stopButton.addEventListener("click", function () {
-        // Hide the Stop button
-        stopButton.style.display = "none";
-        // Show the Resume button
-        resumeButton.style.display = "inline-block";
-    });
-
-    // Event listener for Resume button
-    resumeButton.addEventListener("click", function () {
-        // Hide the Resume button
-        resumeButton.style.display = "none";
-        // Show the Stop button
-        stopButton.style.display = "inline-block";
-    });
 
     const startGame = (contents: string) => {
         showKeys();
